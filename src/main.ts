@@ -50,6 +50,22 @@ export function update (): void {
 	
 	if (frameCount % 15 == 0) {
 		snake.update()
+
+		if (snake.isDead()) {
+			snake.body = []
+
+			snake.body.push(new Point(2, 0))
+			snake.body.push(new Point(1, 0))
+			snake.body.push(new Point(0, 0))
+			snake.direction = new Point(1, 0)
+		}
+
+		if (snake.body[0].X == fruit.X && snake.body[0].Y == fruit.Y) {
+			let p = snake.body[snake.body.length-1]
+			snake.body.push(new Point(p.X, p.Y))
+			fruit.X = rnd(20)
+			fruit.Y = rnd(20)
+		}
 	}
 
 	snake.draw()
