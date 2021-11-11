@@ -4,6 +4,12 @@ import * as w4 from "./wasm4";
 var snake = new Snake()
 var frameCount = 0
 var prevState : u8
+var fruit = new Point(rnd(20), rnd(20))
+const fruitSprite = memory.data<u8>([ 0x00,0xa0,0x02,0x00,0x0e,0xf0,0x36,0x5c,0xd6,0x57,0xd5,0x57,0x35,0x5c,0x0f,0xf0 ]);
+
+function rnd(n : u16) : u16 {
+	return u16(Math.floor(Math.random()*n))
+}
 
 export function start (): void {
 	store<u32>(w4.PALETTE, 0xfbf7f3, 0 * sizeof<u32>());
@@ -47,4 +53,7 @@ export function update (): void {
 	}
 
 	snake.draw()
+
+	store<u16>(w4.DRAW_COLORS, 0x4320)
+	w4.blit(fruitSprite, fruit.X*8, fruit.Y*8, 8, 8, w4.BLIT_2BPP)
 }
