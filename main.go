@@ -11,6 +11,7 @@ var (
 		},
 		Direction: Point{X: 1, Y: 0},
 	}
+	frameCount = 0
 )
 
 //go:export start
@@ -23,5 +24,9 @@ func start() {
 
 //go:export update
 func update() {
+	frameCount++
+	if frameCount%15 == 0 {
+		snake.Update()
+	}
 	snake.Draw()
 }
