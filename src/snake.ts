@@ -41,5 +41,29 @@ export class Snake {
 			this.body[0].Y = 19
 		}
 	}
+
+	public up() : void {
+		if (this.direction.Y == 0) {
+			this.direction = new Point(0, -1)
+		}
+	}
+
+	public down() : void {
+		if (this.direction.Y == 0) {
+			this.direction = new Point(0, 1)
+		}
+	}
+
+	public left() : void {
+		if (this.direction.X == 0) {
+			this.direction = new Point(-1, 0)
+		}
+	}
+
+	public right() : void {
+		if (this.direction.X == 0) {
+			this.direction = new Point(1, 0)
+		}
+	}
 }
 
