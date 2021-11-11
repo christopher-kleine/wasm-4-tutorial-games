@@ -1,25 +1,11 @@
 import * as w4 from "./wasm4";
 
-const smiley = memory.data<u8>([
-    0b11000011,
-    0b10000001,
-    0b00100100,
-    0b00100100,
-    0b00000000,
-    0b00100100,
-    0b10011001,
-    0b11000011,
-]);
+export function start (): void {
+	store<u32>(w4.PALETTE, 0xfbf7f3, 0 * sizeof<u32>());
+	store<u32>(w4.PALETTE, 0xe5b083, 1 * sizeof<u32>());
+	store<u32>(w4.PALETTE, 0x426e5d, 2 * sizeof<u32>());
+	store<u32>(w4.PALETTE, 0x20283d, 3 * sizeof<u32>());
+}
 
 export function update (): void {
-    store<u16>(w4.DRAW_COLORS, 2);
-    w4.text("Hello from\nAssemblyScript!", 10, 10);
-
-    const gamepad = load<u8>(w4.GAMEPAD1);
-    if (gamepad & w4.BUTTON_1) {
-        store<u16>(w4.DRAW_COLORS, 4);
-    }
-
-    w4.blit(smiley, 76, 76, 8, 8, w4.BLIT_1BPP);
-    w4.text("Press X to blink", 16, 90);
 }
