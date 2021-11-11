@@ -2,6 +2,17 @@ package main
 
 import "cart/w4"
 
+var (
+	snake = Snake{
+		Body: []Point{
+			{X: 2, Y: 0},
+			{X: 1, Y: 0},
+			{X: 0, Y: 0},
+		},
+		Direction: Point{X: 1, Y: 0},
+	}
+)
+
 //go:export start
 func start() {
 	w4.PALETTE[0] = 0xfbf7f3
@@ -12,4 +23,5 @@ func start() {
 
 //go:export update
 func update() {
+	snake.Draw()
 }
