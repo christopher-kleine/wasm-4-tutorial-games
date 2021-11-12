@@ -1,6 +1,3 @@
-# WASM-4 Tutorial Games
+# Snake (C)
 
-This repo contains the source code for different tutorial games for the Fantasy Console [WASM-4](https://wasm4.org/).
-
-Check the branches for the available games.
-
+This is a simple snake game written in C. The [tutorial](https://wasm4.org/docs/tutorials/snake/goal) can be found on the official website [WASM-4.org](https://wasm4.org/).
