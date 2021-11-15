@@ -36,3 +36,27 @@ func (s *Snake) Update() {
 		s.Body[0].Y = 19
 	}
 }
+
+func (s *Snake) Up() {
+	if s.Direction.Y == 0 {
+		s.Direction = Point{X: 0, Y: -1}
+	}
+}
+
+func (s *Snake) Down() {
+	if s.Direction.Y == 0 {
+		s.Direction = Point{X: 0, Y: 1}
+	}
+}
+
+func (s *Snake) Left() {
+	if s.Direction.X == 0 {
+		s.Direction = Point{X: -1, Y: -0}
+	}
+}
+
+func (s *Snake) Right() {
+	if s.Direction.X == 0 {
+		s.Direction = Point{X: 1, Y: 0}
+	}
+}

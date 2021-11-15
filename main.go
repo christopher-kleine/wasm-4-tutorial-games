@@ -12,7 +12,31 @@ var (
 		Direction: Point{X: 1, Y: 0},
 	}
 	frameCount = 0
+	prevState  uint8
 )
+
+func input() {
+	justPressed := *w4.GAMEPAD1 & (*w4.GAMEPAD1 ^ prevState)
+
+	if *w4.GAMEPAD1 != 0 && rnd == nil {
+		rnd = rand.New(rand.NewSource(int64(frameCount))).Intn
+	}
+
+	if justPressed&w4.BUTTON_UP != 0 {
+		snake.Up()
+	}
+	if justPressed&w4.BUTTON_DOWN != 0 {
+		snake.Down()
+	}
+	if justPressed&w4.BUTTON_LEFT != 0 {
+		snake.Left()
+	}
+	if justPressed&w4.BUTTON_RIGHT != 0 {
+		snake.Right()
+	}
+
+	prevState = *w4.GAMEPAD1
+}
 
 //go:export start
 func start() {
@@ -25,6 +49,9 @@ func start() {
 //go:export update
 func update() {
 	frameCount++
+
+	input()
+
 	if frameCount%15 == 0 {
 		snake.Update()
 	}
