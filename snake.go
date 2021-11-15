@@ -60,3 +60,13 @@ func (s *Snake) Right() {
 		s.Direction = Point{X: 1, Y: 0}
 	}
 }
+
+func (s *Snake) IsDead() bool {
+	for index := 1; index < len(s.Body)-1; index++ {
+		if s.Body[0].X == s.Body[index].X && s.Body[0].Y == s.Body[index].Y {
+			return true
+		}
+	}
+
+	return false
+}

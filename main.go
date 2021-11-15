@@ -61,6 +61,21 @@ func update() {
 
 	if frameCount%15 == 0 {
 		snake.Update()
+
+		if snake.IsDead() {
+			snake.Body = []Point{
+				{X: 2, Y: 0},
+				{X: 1, Y: 0},
+				{X: 0, Y: 0},
+			}
+			snake.Direction = Point{X: 1, Y: 0}
+		}
+
+		if snake.Body[0].X == fruit.X && snake.Body[0].Y == fruit.Y {
+			snake.Body = append(snake.Body, snake.Body[len(snake.Body)-1])
+			fruit.X = rnd(20)
+			fruit.Y = rnd(20)
+		}
 	}
 	snake.Draw()
 
