@@ -12,7 +12,11 @@ export class Point {
 }
 
 export class Snake {
-	body : Array<Point> = []
+	body : Array<Point> = [
+		new Point(2, 0),
+		new Point(1, 0),
+		new Point(0, 0)
+	]
 	direction : Point = new Point(1, 0)
 
 	draw() : void {
@@ -20,12 +24,12 @@ export class Snake {
 		this.body.forEach(part => w4.rect(part.x * 8, part.y * 8, 8, 8))
 
 		store<u16>(w4.DRAW_COLORS, 0x0004)
-		w4.rect(this.body[0].x * 8,this.body[0].y * 8, 8, 8)
+		w4.rect(this.body[0].x * 8, this.body[0].y * 8, 8, 8)
 	}
 
 	update() : void {
 		const body = this.body
-		let head = unchecked(body[0])
+		const head = unchecked(body[0])
 
 		body.unshift(new Point(
 			(head.x + this.direction.x) % 20,
@@ -70,7 +74,7 @@ export class Snake {
 
 	isDead() : bool {
 		const body = this.body;
-		const head = body[0];
+		const head = unchecked(body[0]);
 
 		for (let i = 1, len = body.length; i < len; i++) {
 			if (body[i].equals(head)) {
