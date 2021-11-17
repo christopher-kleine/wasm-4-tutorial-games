@@ -81,7 +81,7 @@ export class Snake {
 		const head = unchecked(body[0])
 
 		for (let i = 1, len = body.length; i < len; i++) {
-			if (body[i].equals(head)) {
+			if (unchecked(body[i]).equals(head)) {
 				return true
 			}
 		}
