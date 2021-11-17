@@ -1,78 +1,83 @@
 import * as w4 from "./wasm4"
 
 export class Point {
-	public X : i16
-	public Y : i16
+	constructor(
+		public x : i16,
+		public y : i16
+	) {}
 
-	constructor(X : i16, Y : i16) {
-		this.X = X
-		this.Y = Y
+	equals(other: Point): bool {
+		return this.x == other.x && this.y == other.y
 	}
 }
 
 export class Snake {
-	public body : Array<Point>
-	public direction : Point
+	body : Array<Point> = []
+	direction : Point = new Point(1, 0)
 
-	constructor () {
-		this.body = new Array<Point>()
-		this.direction = new Point(1, 0)
-	}
-
-	public draw() : void {
+	draw() : void {
 		store<u16>(w4.DRAW_COLORS, 0x0043)
-		this.body.forEach(part => w4.rect(part.X*8, part.Y*8, 8, 8))
+		this.body.forEach(part => w4.rect(part.x * 8, part.y * 8, 8, 8))
 
 		store<u16>(w4.DRAW_COLORS, 0x0004)
-		w4.rect(this.body[0].X*8,this.body[0].Y*8, 8, 8)
+		w4.rect(this.body[0].x * 8,this.body[0].y * 8, 8, 8)
 	}
 
-	public update() : void {
-		for (let i = this.body.length-1; i > 0; i--) {
-			this.body[i] = new Point(this.body[i-1].X, this.body[i-1].Y)
+	update() : void {
+		const body = this.body;
+		for (let i = body.length - 1; i > 0; i--) {
+			unchecked(body[i].x = body[i - 1].x)
+			unchecked(body[i].y = body[i - 1].y)
 		}
+		let firstBody = unchecked(body[0]);
+		firstBody.x = (firstBody.x + this.direction.x) % 20
+		firstBody.y = (firstBody.y + this.direction.y) % 20
 
-		this.body[0].X = (this.body[0].X + this.direction.X) % 20
-		this.body[0].Y = (this.body[0].Y + this.direction.Y) % 20
-		if (this.body[0].X < 0) {
-			this.body[0].X = 19
+		if (firstBody.x < 0) {
+			firstBody.x = 19
 		}
-		if (this.body[0].Y < 0) {
-			this.body[0].Y = 19
-		}
-	}
-
-	public up() : void {
-		if (this.direction.Y == 0) {
-			this.direction = new Point(0, -1)
+		if (firstBody.y < 0) {
+			firstBody.y = 19
 		}
 	}
 
-	public down() : void {
-		if (this.direction.Y == 0) {
-			this.direction = new Point(0, 1)
+	up() : void {
+		if (this.direction.y == 0) {
+			this.direction.x = 0
+			this.direction.y = -1
 		}
 	}
 
-	public left() : void {
-		if (this.direction.X == 0) {
-			this.direction = new Point(-1, 0)
+	down() : void {
+		if (this.direction.y == 0) {
+			this.direction.x = 0
+			this.direction.y = 1
 		}
 	}
 
-	public right() : void {
-		if (this.direction.X == 0) {
-			this.direction = new Point(1, 0)
+	left() : void {
+		if (this.direction.x == 0) {
+			this.direction.x = -1
+			this.direction.y = 0
 		}
 	}
 
-	public isDead() : bool {
-		for (let i = 1; i < this.body.length; i++) {
-			if (this.body[i].X == this.body[0].X && this.body[i].Y == this.body[0].Y) {
+	right() : void {
+		if (this.direction.x == 0) {
+			this.direction.x = 1
+			this.direction.x = 0
+		}
+	}
+
+	isDead() : bool {
+		const body = this.body;
+		const firstBody = body[0];
+
+		for (let i = 1, len = body.length; i < len; i++) {
+			if (body[i].equals(firstBody)) {
 				return true
 			}
 		}
-
 		return false
 	}
 }
