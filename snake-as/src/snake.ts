@@ -29,15 +29,15 @@ export class Snake {
 			unchecked(body[i].x = body[i - 1].x)
 			unchecked(body[i].y = body[i - 1].y)
 		}
-		let firstBody = unchecked(body[0]);
-		firstBody.x = (firstBody.x + this.direction.x) % 20
-		firstBody.y = (firstBody.y + this.direction.y) % 20
+		let head = unchecked(body[0]);
+		head.x = (head.x + this.direction.x) % 20
+		head.y = (head.y + this.direction.y) % 20
 
-		if (firstBody.x < 0) {
-			firstBody.x = 19
+		if (head.x < 0) {
+			head.x = 19
 		}
-		if (firstBody.y < 0) {
-			firstBody.y = 19
+		if (head.y < 0) {
+			head.y = 19
 		}
 	}
 
@@ -71,10 +71,10 @@ export class Snake {
 
 	isDead() : bool {
 		const body = this.body;
-		const firstBody = body[0];
+		const head = body[0];
 
 		for (let i = 1, len = body.length; i < len; i++) {
-			if (body[i].equals(firstBody)) {
+			if (body[i].equals(head)) {
 				return true
 			}
 		}
