@@ -31,10 +31,13 @@ export class Snake {
 		const body = this.body
 		const head = unchecked(body[0])
 
-		body.unshift(new Point(
-			(head.x + this.direction.x) % 20,
-			(head.y + this.direction.y) % 20
-		));
+		for (let i = body.length - 1; i > 0; i--) {
+			unchecked(body[i].x = body[i - 1].x)
+			unchecked(body[i].y = body[i - 1].y)
+		}
+
+		head.x = (head.x + this.direction.x) % 20
+		head.y = (head.y + this.direction.y) % 20
 
 		if (head.x < 0) {
 			head.x = 19
