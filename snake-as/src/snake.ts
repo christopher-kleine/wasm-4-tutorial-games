@@ -6,7 +6,7 @@ export class Point {
 		public y : i32
 	) {}
 
-	equals(other: Point): bool {
+	equals(other : Point) : bool {
 		return this.x == other.x && this.y == other.y
 	}
 }
@@ -72,9 +72,13 @@ export class Snake {
 		}
 	}
 
+	growTail(lastPos : Point) : void {
+		this.body.push(lastPos)
+	}
+
 	isDead() : bool {
-		const body = this.body;
-		const head = unchecked(body[0]);
+		const body = this.body
+		const head = unchecked(body[0])
 
 		for (let i = 1, len = body.length; i < len; i++) {
 			if (body[i].equals(head)) {
