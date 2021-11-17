@@ -1,0 +1,9 @@
+# mac os
+.DS_Store
+
+# vim temp files
+*.swp
+*.swo
+
+# Ignore log files
+*.log
