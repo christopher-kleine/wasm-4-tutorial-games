@@ -2,8 +2,8 @@ import * as w4 from "./wasm4"
 
 export class Point {
 	constructor(
-		public x : i16,
-		public y : i16
+		public x : i32,
+		public y : i32
 	) {}
 
 	equals(other: Point): bool {
