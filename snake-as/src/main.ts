@@ -16,11 +16,6 @@ export function start (): void {
 	store<u32>(w4.PALETTE, 0xe5b083, 1 * sizeof<u32>());
 	store<u32>(w4.PALETTE, 0x426e5d, 2 * sizeof<u32>());
 	store<u32>(w4.PALETTE, 0x20283d, 3 * sizeof<u32>());
-
-	snake.body.push(new Point(2, 0))
-	snake.body.push(new Point(1, 0))
-	snake.body.push(new Point(0, 0))
-	snake.direction = new Point(1, 0)
 }
 
 function input() :void {
@@ -60,16 +55,16 @@ export function update (): void {
 			snake.direction = new Point(1, 0)
 		}
 
-		if (snake.body[0].X == fruit.X && snake.body[0].Y == fruit.Y) {
+		if (snake.body[0].equals(fruit)) {
 			let p = snake.body[snake.body.length-1]
-			snake.body.push(new Point(p.X, p.Y))
-			fruit.X = rnd(20)
-			fruit.Y = rnd(20)
+			snake.body.push(new Point(p.x, p.y))
+			fruit.x = rnd(20)
+			fruit.y = rnd(20)
 		}
 	}
 
 	snake.draw()
 
 	store<u16>(w4.DRAW_COLORS, 0x4320)
-	w4.blit(fruitSprite, fruit.X*8, fruit.Y*8, 8, 8, w4.BLIT_2BPP)
+	w4.blit(fruitSprite, fruit.x*8, fruit.y*8, 8, 8, w4.BLIT_2BPP)
 }

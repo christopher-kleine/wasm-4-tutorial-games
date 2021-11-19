@@ -71,7 +71,7 @@ export class Snake {
 	right() : void {
 		if (this.direction.x == 0) {
 			this.direction.x = 1
-			this.direction.x = 0
+			this.direction.y = 0
 		}
 	}
 
