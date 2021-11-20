@@ -8,7 +8,7 @@ fruit_sprite := [16]u8{ 0x00,0xa0,0x02,0x00,0x0e,0xf0,0x36,0x5c,0xd6,0x57,0xd5,0
 snake := &Snake{}
 frameCount : i32 = 0
 prevState : w4.Buttons
-fruit := Point{X = 10, Y = 10}
+fruit := Point{10, 10}
 
 @export
 start :: proc "c" () {
@@ -53,10 +53,9 @@ update :: proc "c" () {
 	if frameCount % 15 == 0 {
 		update_snake(snake)
 
-		if are_points_colliding(snake.body[0], fruit) {
+		if snake.body[0] == fruit {
 			grow_snake(snake)
-			fruit.X = rand.int31_max(20)
-			fruit.Y = rand.int31_max(20)
+			fruit = {rand.int31_max(20), rand.int31_max(20)}
 		}
 
 		if is_snake_dead(snake) {
@@ -67,5 +66,5 @@ update :: proc "c" () {
 	draw_snake(snake)
 
 	w4.DRAW_COLORS^ = 0x4320
-	w4.blit(&fruit_sprite[0], i32(fruit.X*8), i32(fruit.Y*8), 8, 8, {.USE_2BPP})
+	w4.blit(&fruit_sprite[0], fruit.x*8, fruit.y*8, 8, 8, {.USE_2BPP})
 }
