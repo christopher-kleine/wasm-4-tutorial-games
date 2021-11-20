@@ -7,14 +7,7 @@ import (
 )
 
 var (
-	snake = Snake{
-		Body: []Point{
-			{X: 2, Y: 0},
-			{X: 1, Y: 0},
-			{X: 0, Y: 0},
-		},
-		Direction: Point{X: 1, Y: 0},
-	}
+	snake       = &Snake{}
 	frameCount  = 0
 	prevState   uint8
 	fruit       = Point{X: 10, Y: 10}
@@ -51,6 +44,8 @@ func start() {
 	w4.PALETTE[1] = 0xe5b083
 	w4.PALETTE[2] = 0x426e5d
 	w4.PALETTE[3] = 0x20283d
+
+	snake.Reset()
 }
 
 //go:export update
@@ -63,15 +58,10 @@ func update() {
 		snake.Update()
 
 		if snake.IsDead() {
-			snake.Body = []Point{
-				{X: 2, Y: 0},
-				{X: 1, Y: 0},
-				{X: 0, Y: 0},
-			}
-			snake.Direction = Point{X: 1, Y: 0}
+			snake.Reset()
 		}
 
-		if snake.Body[0].X == fruit.X && snake.Body[0].Y == fruit.Y {
+		if snake.Body[0] == fruit {
 			snake.Body = append(snake.Body, snake.Body[len(snake.Body)-1])
 			fruit.X = rnd(20)
 			fruit.Y = rnd(20)

@@ -12,6 +12,15 @@ type Snake struct {
 	Direction Point
 }
 
+func (s *Snake) Reset() {
+	s.Body = []Point{
+		{X: 2, Y: 0},
+		{X: 1, Y: 0},
+		{X: 0, Y: 0},
+	}
+	s.Direction = Point{X: 1, Y: 0}
+}
+
 func (s *Snake) Draw() {
 	*w4.DRAW_COLORS = 0x0043
 	for _, part := range s.Body {
@@ -39,31 +48,31 @@ func (s *Snake) Update() {
 
 func (s *Snake) Up() {
 	if s.Direction.Y == 0 {
-		s.Direction = Point{X: 0, Y: -1}
+		s.Direction.X, s.Direction.Y = 0, -1
 	}
 }
 
 func (s *Snake) Down() {
 	if s.Direction.Y == 0 {
-		s.Direction = Point{X: 0, Y: 1}
+		s.Direction.X, s.Direction.Y = 0, 1
 	}
 }
 
 func (s *Snake) Left() {
 	if s.Direction.X == 0 {
-		s.Direction = Point{X: -1, Y: -0}
+		s.Direction.X, s.Direction.Y = -1, 0
 	}
 }
 
 func (s *Snake) Right() {
 	if s.Direction.X == 0 {
-		s.Direction = Point{X: 1, Y: 0}
+		s.Direction.X, s.Direction.Y = 1, 0
 	}
 }
 
 func (s *Snake) IsDead() bool {
 	for index := 1; index < len(s.Body)-1; index++ {
-		if s.Body[0].X == s.Body[index].X && s.Body[0].Y == s.Body[index].Y {
+		if s.Body[0] == s.Body[index] {
 			return true
 		}
 	}
