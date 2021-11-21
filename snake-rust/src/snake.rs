@@ -95,8 +95,7 @@ impl Snake {
                 .body
                 .iter()
                 .skip(1)
-                .find(|&body_section| body_section == first)
-                .is_some(),
+                .any(|body_section| body_section == first),
         }
     }
 }
