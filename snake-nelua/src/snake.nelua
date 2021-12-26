@@ -1,0 +1,94 @@
+require "wasm4"
+
+local sequence = require "sequence"
+
+local snake = @record{}
+
+local snake.Point = @record{
+  x: int32,
+  y: int32,
+}
+
+local Point = snake.Point
+
+local snake.Snake = @record{
+  body: sequence(Point),
+  direction: Point,
+}
+
+local Snake = snake.Snake
+
+function Snake.init(): Snake
+  return Snake{
+    body = {
+      { x = 2, y = 0 },
+      { x = 1, y = 0 },
+      { x = 0, y = 0 },
+    },
+    direction = { x = 1, y = 0 },
+  }
+end
+
+function Snake:left()
+  if self.direction.x == 0 then
+    self.direction = {x = -1, y = 0}
+  end
+end
+
+function Snake:right()
+  if self.direction.x == 0 then
+    self.direction = {x = 1, y = 0}
+  end
+end
+
+function Snake:up()
+  if self.direction.y == 0 then
+    self.direction = {x = 0, y = -1}
+  end
+end
+
+function Snake:down()
+  if self.direction.y == 0 then
+    self.direction = {x = 0, y = 1}
+  end
+end
+
+function Snake:is_dead(): boolean
+  local head = self.body[1]
+
+  for i = 2, #self.body do
+    if self.body[i] == head then
+      return true
+    end
+  end
+
+  return false
+end
+
+function Snake:update()
+  for i = #self.body, 2, -1 do
+    self.body[i] = self.body[i - 1]
+  end
+
+  self.body[1].x = (self.body[1].x + self.direction.x) % 20
+  self.body[1].y = (self.body[1].y + self.direction.y) % 20
+
+  if self.body[1].x < 0 then
+    self.body[1].x = 19
+  end
+  if self.body[1].y < 0 then
+    self.body[1].y = 19
+  end
+end
+
+function Snake:draw()
+  $DRAW_COLORS = 0x0043;
+  for i = 1, #self.body do
+    rect(self.body[i].x * 8, self.body[i].y * 8, 8, 8)
+  end
+
+  $DRAW_COLORS = 0x0004;
+  rect(self.body[1].x * 8, self.body[1].y * 8, 8, 8)
+end
+
+return snake
