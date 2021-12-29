@@ -1,0 +1,68 @@
+require "wasm4"
+local Snake = require "snake"
+local Point, Snake = Snake.Point, Snake.Snake
+
+local math = require 'math'
+
+local snake = Snake.init()
+local fruit: Point = { x = math.random(0, 19), y = math.random(0,19) }
+local frame_count = 0
+local prev_state = 0
+local fruit_sprite: [16]uint8 = { 0x00,0xa0,0x02,0x00,0x0e,0xf0,0x36,0x5c,0xd6,0x57,0xd5,0x57,0x35,0x5c,0x0f,0xf0 }
+
+$PALETTE = {
+  0xfbf7f3,
+  0xe5b083,
+  0x426e5d,
+  0x20283d
+}
+
+local function input()
+  local gamepad = $GAMEPAD1
+  local just_pressed = gamepad & (gamepad ~ prev_state)
+
+  if just_pressed & BUTTON_LEFT ~= 0 then
+    snake:left()
+  end
+  if just_pressed & BUTTON_RIGHT ~= 0 then
+    snake:right()
+  end
+  if just_pressed & BUTTON_UP ~= 0 then
+    snake:up()
+  end
+  if just_pressed & BUTTON_DOWN ~= 0 then
+    snake:down()
+  end
+
+  prev_state = gamepad
+end
+
+local function update()
+  frame_count = frame_count + 1
+
+  input()
+
+  if frame_count % 15 == 0 then
+    snake:update()
+
+    if snake:is_dead() then
+      -- Do something
+    end
+
+    if snake.body[1] == fruit then
+      local tail = snake.body[#snake.body]
+      snake.body:push({ x = tail.x, y = tail.y })
+      math.randomseed(frame_count)
+      fruit = { x = math.random(0, 19), y = math.random(0,19) }
+    end
+  end
+
+  snake:draw()
+
+  $DRAW_COLORS = 0x4320
+  blit(fruit_sprite, fruit.x * 8, fruit.y * 8, 8, 8, BLIT_2BPP)
+end
+
+## setup_wasm4_callbacks(update)
+
+
