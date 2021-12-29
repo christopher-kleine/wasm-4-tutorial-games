@@ -10,4 +10,4 @@ The goal is to provide a one-stop-repo for all tutorials hosted on the WASM-4 we
 
 A famous game that can be implemented in pretty much any language, engine of framework.
 
-It's currently implemented in: [AssenblyScript](snake-as/), [C](snake-c/), [Go](snake-go/), [Odin](snake-odin/), [Rust](snake-rust/) and [Zig](snake-zig/).
+It's currently implemented in: [AssenblyScript](snake-as/), [C](snake-c/), [D](snake-d/), [Go](snake-go/), [Odin](snake-odin/), [Rust](snake-rust/) and [Zig](snake-zig/).
