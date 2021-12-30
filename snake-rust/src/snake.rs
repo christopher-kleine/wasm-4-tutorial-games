@@ -24,44 +24,34 @@ impl Snake {
     }
 
     pub fn draw(&self) {
-        if let Some(first) = self.body.first() {
-            set_draw_color(0x43u16);
+        set_draw_color(0x43);
 
-            for &Point { x, y } in self.body.iter() {
-                wasm4::rect(x * 8, y * 8, 8, 8);
-            }
-
-            set_draw_color(0x4u16);
-            wasm4::rect(first.x * 8, first.y * 8, 8, 8);
+        for &Point { x, y } in self.body.iter() {
+            wasm4::rect(x * 8, y * 8, 8, 8);
         }
+
+        set_draw_color(0x4);
+        wasm4::rect(self.body[0].x * 8, self.body[0].y * 8, 8, 8);
     }
 
     pub fn update(&mut self) -> Option<Point> {
-        if !self.body.is_empty() {
-            self.body.insert(
-                0,
-                Point {
-                    x: (self.body[0].x + self.direction.x) % 20,
-                    y: (self.body[0].y + self.direction.y) % 20,
-                },
-            );
+        self.body.insert(
+            0,
+            Point {
+                x: (self.body[0].x + self.direction.x) % 20,
+                y: (self.body[0].y + self.direction.y) % 20,
+            },
+        );
 
-            if self.body[0].x < 0 {
-                self.body[0].x = 19;
-            }
-
-            if self.body[0].y < 0 {
-                self.body[0].y = 19;
-            }
-
-            self.body.pop()
-        } else {
-            None
+        if self.body[0].x < 0 {
+            self.body[0].x = 19;
         }
-    }
 
-    pub fn grow_tail(&mut self, last_pos: Point) {
-        self.body.push(last_pos);
+        if self.body[0].y < 0 {
+            self.body[0].y = 19;
+        }
+
+        self.body.pop()
     }
 
     pub fn left(&mut self) {
@@ -89,13 +79,9 @@ impl Snake {
     }
 
     pub fn is_dead(&self) -> bool {
-        match self.body.first() {
-            None => true,
-            Some(first) => self
-                .body
-                .iter()
-                .skip(1)
-                .any(|body_section| body_section == first),
-        }
+        self.body
+            .iter()
+            .skip(1)
+            .any(|&body_section| body_section == self.body[0])
     }
 }
