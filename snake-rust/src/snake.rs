@@ -1,24 +1,25 @@
 use crate::{palette::set_draw_color, wasm4};
+use heapless::Vec;
 
-#[derive(Clone, Copy, PartialEq, Eq)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub struct Point {
     pub x: i32,
     pub y: i32,
 }
 
 pub struct Snake {
-    pub body: Vec<Point>,
+    pub body: Vec<Point, 400>,
     pub direction: Point,
 }
 
 impl Snake {
     pub fn new() -> Self {
+        let mut body = Vec::new();
+        body.push(Point { x: 2, y: 0 }).unwrap();
+        body.push(Point { x: 1, y: 0 }).unwrap();
+        body.push(Point { x: 0, y: 0 }).unwrap();
         Self {
-            body: vec![
-                Point { x: 2, y: 0 },
-                Point { x: 1, y: 0 },
-                Point { x: 0, y: 0 },
-            ],
+            body,
             direction: Point { x: 1, y: 0 },
         }
     }
@@ -35,23 +36,22 @@ impl Snake {
     }
 
     pub fn update(&mut self) -> Option<Point> {
-        self.body.insert(
-            0,
-            Point {
-                x: (self.body[0].x + self.direction.x) % 20,
-                y: (self.body[0].y + self.direction.y) % 20,
-            },
-        );
-
-        if self.body[0].x < 0 {
-            self.body[0].x = 19;
+        let mut new_head = Point {
+            x: (self.body[0].x + self.direction.x) % 20,
+            y: (self.body[0].y + self.direction.y) % 20,
+        };
+        if new_head.x < 0 {
+            new_head.x = 19;
         }
 
-        if self.body[0].y < 0 {
-            self.body[0].y = 19;
+        if new_head.y < 0 {
+            new_head.y = 19;
         }
-
-        self.body.pop()
+        let body_len = self.body.len();
+        let old_tail = self.body[body_len - 1];
+        self.body.copy_within(0..body_len - 1, 1);
+        self.body[0] = new_head;
+        Some(old_tail)
     }
 
     pub fn left(&mut self) {

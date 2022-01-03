@@ -69,7 +69,7 @@ impl Game {
 
             if self.snake.body[0] == self.fruit {
                 if let Some(last_pos) = dropped_pos {
-                    self.snake.body.push(last_pos);
+                    self.snake.body.push(last_pos).unwrap();
                 }
 
                 self.rng.seed(self.frame_count.into());
