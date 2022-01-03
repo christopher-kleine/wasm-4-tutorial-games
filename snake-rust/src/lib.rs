@@ -1,5 +1,5 @@
-#[cfg(feature = "buddy-alloc")]
-mod alloc;
+#![no_std]
+
 mod game;
 mod palette;
 mod snake;
