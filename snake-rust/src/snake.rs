@@ -15,9 +15,11 @@ pub struct Snake {
 impl Snake {
     pub fn new() -> Self {
         let mut body = Vec::new();
-        body.push(Point { x: 2, y: 0 }).unwrap();
-        body.push(Point { x: 1, y: 0 }).unwrap();
-        body.push(Point { x: 0, y: 0 }).unwrap();
+        unsafe {
+            body.push_unchecked(Point { x: 2, y: 0 });
+            body.push_unchecked(Point { x: 1, y: 0 });
+            body.push_unchecked(Point { x: 0, y: 0 });
+        }
         Self {
             body,
             direction: Point { x: 1, y: 0 },
