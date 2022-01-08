@@ -20,10 +20,10 @@ export function start(): void {
     new Maze.Wall(152,  8,   8, 148),
 
     // Corridors
-    new Maze.Wall(26,  29,  16,  60),
+    new Maze.Wall(26,  28,  16,  60),
     new Maze.Wall(62,  41,  72,   8),
     new Maze.Wall(90,  72,  16,  64),
-    new Maze.Wall(34, 103,  40,  32)
+    new Maze.Wall(34, 102,  40,  32)
   ];
 
   // Instance player and set collision walls for it...
