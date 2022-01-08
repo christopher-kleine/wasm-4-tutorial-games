@@ -1,0 +1,3 @@
+# Maze (AssemblyScript)
+
+Simple maze.
