@@ -100,7 +100,7 @@ export class Sprite {
     this.y = y;
     this.width  = width;
     this.height = height;
-    this.hitbox = new Hitbox(0, 0, width - 1, height - 1);
+    this.hitbox = new Hitbox(0, 0, width, height);
   }
 
   /**
@@ -202,7 +202,7 @@ export class Wall extends Sprite {
  */
 export class Player extends Sprite {
   /** Player speed. */
-  speed: i32 = 2;
+  speed: i32 = 1;
 
   /** Collision walls. */
   walls: Wall[] = new Array<Wall>();
@@ -258,7 +258,7 @@ export class Player extends Sprite {
    * @event draw
    */
   draw(): void {
-    store<u16>(w4.DRAW_COLORS, 4);
+    store<u16>(w4.DRAW_COLORS, 0x40);
     w4.blit(
       SPR_PLAYER,
       this.x,
