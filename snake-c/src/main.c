@@ -24,11 +24,13 @@ void start()
    
     snake.direction = (struct point){1,0};
 
-    fruit = (struct point){rand()%20, rand()%20};
+    fruit.x = rand()%20;
+    fruit.y = rand()%20;
 }
 
 void input()
 {
+    srand(frame_count);
     const uint8_t just_pressed = *GAMEPAD1 & (*GAMEPAD1 ^ prev_state);
 
     if (just_pressed & BUTTON_UP)

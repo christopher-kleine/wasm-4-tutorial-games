@@ -1,5 +1,4 @@
-#ifndef SNAKE_H
-#define SNAKE_H
+#pragma once
 #include <stdint.h>
 
 struct point {
@@ -23,4 +22,3 @@ void snake_down(struct snake *snake);
 void snake_left(struct snake *snake);
 void snake_right(struct snake *snake);
 int snake_isdead(struct snake *snake);
-#endif
