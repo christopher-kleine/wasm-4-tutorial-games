@@ -4,29 +4,21 @@
 
 void snake_create(struct snake *snake)
 {
-    struct point* body;
-    body = malloc(0);
-    if(body)
+    if(snake->body != NULL)
     {
-        if(snake->body != NULL)
-        {
             free(snake->body);
-        }
-        snake->body = body;
-        snake->length = 0;
+            snake->body = NULL;
     }
+    snake->length = 0;
 }
 
 void snake_push(struct snake *snake, struct point p)
 {
-    if(snake->body)
+    struct point* body = realloc(snake->body,sizeof body * (snake->length+1));
+    if(body)
     {
-        struct point* body = realloc(snake->body,sizeof body * (snake->length+1));
-        if(body)
-        {
-            snake->body = body;
-            snake->body[snake->length++] = p;
-        }
+        snake->body = body;
+        snake->body[snake->length++] = p;
     }
 }
 
